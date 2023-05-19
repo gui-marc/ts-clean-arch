@@ -1,0 +1,6 @@
+{
+    "extends": ["@gui-marc/eslint-config-backend"],
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    }
+}
