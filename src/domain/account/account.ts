@@ -27,7 +27,7 @@ export default class Account {
     this.id = randomUUID();
     this.name = new Name(props.name);
     this.email = new Email(props.email);
-    this.password = new Password(props.password);
+    this.password = new Password(props.password, false);
     this.createdAt = new Date();
     this.updatedAt = new Date();
   }
