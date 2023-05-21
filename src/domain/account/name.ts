@@ -11,6 +11,6 @@ export default class Name {
 
   // name should have at least 2 characters
   static validate(name: string): boolean {
-    return name.length >= 2;
+    return name.length >= 2 && name.length <= 255;
   }
 }

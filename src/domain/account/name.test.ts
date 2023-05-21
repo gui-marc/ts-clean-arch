@@ -18,4 +18,12 @@ describe('name', () => {
   it('should be valid if name has at least 2 characters', () => {
     expect(Name.validate('ab')).toBeTruthy();
   });
+
+  it('should be invalid if name has more than 255 characters', () => {
+    expect(Name.validate('a'.repeat(256))).toBeFalsy();
+  });
+
+  it('should be valid if name has at most 255 characters', () => {
+    expect(Name.validate('a'.repeat(255))).toBeTruthy();
+  });
 });

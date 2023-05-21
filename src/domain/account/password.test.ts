@@ -4,7 +4,7 @@ import Password from './password';
 
 describe('password', () => {
   it('should be created', () => {
-    expect(Password.create('123123asdasd#"!')).not.toBeNull();
+    expect(Password.fromValue('123123asdasd#"!')).not.toBeNull();
   });
 
   it('should be invalid if password is empty', () => {

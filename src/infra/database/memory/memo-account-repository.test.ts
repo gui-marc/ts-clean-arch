@@ -1,5 +1,6 @@
 import { describe } from '@jest/globals';
 
+import NotFoundError from '@/application/core/errors/not-found-error';
 import Account from '@/domain/account/account';
 
 import MemoAccountRepository from './memo-account-repository';
@@ -10,7 +11,7 @@ describe('memory account repository', () => {
   const [acc, err] = Account.create({
     email: 'john@doe.email',
     name: 'John Doe',
-    password: 'john123!"#',
+    password: 'john123!"#AAS',
   });
 
   if (err) {
@@ -22,11 +23,15 @@ describe('memory account repository', () => {
   });
 
   it('should find an account by id', async () => {
-    await expect(repo.findById(acc.id)).resolves.toEqual(acc);
+    const [account, err] = await repo.findById(acc.id);
+    expect(account).toEqual(acc);
+    expect(err).toBeNull();
   });
 
   it('should find an account by email', async () => {
-    await expect(repo.findByEmail(acc.email.value)).resolves.toEqual(acc);
+    const [account, err] = await repo.findByEmail(acc.email.value);
+    expect(account).toEqual(acc);
+    expect(err).toBeNull();
   });
 
   it('should check if an account exists', async () => {
@@ -34,11 +39,15 @@ describe('memory account repository', () => {
   });
 
   it('should not find an account by id', async () => {
-    await expect(repo.findById('invalid-id')).resolves.toBeNull();
+    const [account, err] = await repo.findById('invalid-id');
+    expect(account).toBeNull();
+    expect(err).toBeInstanceOf(NotFoundError);
   });
 
   it('should not find an account by email', async () => {
-    await expect(repo.findByEmail('invalid-email')).resolves.toBeNull();
+    const [account, err] = await repo.findByEmail('invalid-email');
+    expect(account).toBeNull();
+    expect(err).toBeInstanceOf(NotFoundError);
   });
 
   it('should check if an account does not exist', async () => {

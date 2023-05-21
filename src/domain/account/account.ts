@@ -10,9 +10,13 @@ import InvalidPasswordError from './errors/invalid-password-error';
 import Password from './password';
 
 export interface IAccountProps {
+  id?: string;
   name: string;
   email: string;
   password: string;
+  hashed?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export default class Account {
@@ -24,12 +28,12 @@ export default class Account {
   readonly updatedAt: Date;
 
   private constructor(props: IAccountProps) {
-    this.id = randomUUID();
+    this.id = props.id || randomUUID();
     this.name = new Name(props.name);
     this.email = new Email(props.email);
-    this.password = new Password(props.password, false);
-    this.createdAt = new Date();
-    this.updatedAt = new Date();
+    this.password = new Password(props.password, !!props.hashed);
+    this.createdAt = props.createdAt || new Date();
+    this.updatedAt = props.updatedAt || new Date();
   }
 
   static create(
@@ -43,7 +47,7 @@ export default class Account {
       return [null, new InvalidEmailError(props.email)];
     }
 
-    if (!Password.validate(props.password)) {
+    if (!props.hashed && !Password.validate(props.password)) {
       return [null, new InvalidPasswordError()];
     }
 
