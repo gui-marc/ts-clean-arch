@@ -15,7 +15,7 @@ export default class PostgresAccountAdapter
 {
   async fromDomain(account: Account): Promise<AccountPersistence> {
     return {
-      id: account.id,
+      id: account.id.value,
       name: account.name.value,
       email: account.email.value,
       password: await account.password.getHashedValue(),

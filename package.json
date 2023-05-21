@@ -7,7 +7,8 @@
   "scripts": {
     "test": "jest --coverage --verbose",
     "lint": "eslint --ext .ts ./src",
-    "migrate:postgres": "ts-node ./src/infra/database/postgres/migrations/run.ts"
+    "migrate:postgres": "ts-node ./src/infra/database/postgres/migrations/run.ts",
+    "drop:postgres": "ts-node ./src/infra/database/postgres/migrations/drop.ts"
   },
   "devDependencies": {
     "@gui-marc/eslint-config-backend": "1.0.3",

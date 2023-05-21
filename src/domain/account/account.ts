@@ -5,8 +5,10 @@ import Name from '@/domain/account/name';
 import { type Optional } from '@/domain/core/optional';
 
 import InvalidEmailError from './errors/invalid-email-error';
+import InvalidUuidError from './errors/invalid-id-error';
 import InvalidNameError from './errors/invalid-name-error';
 import InvalidPasswordError from './errors/invalid-password-error';
+import UUID from './id';
 import Password from './password';
 
 export interface IAccountProps {
@@ -20,7 +22,7 @@ export interface IAccountProps {
 }
 
 export default class Account {
-  readonly id: string;
+  readonly id: UUID;
   readonly name: Name;
   readonly email: Email;
   readonly password: Password;
@@ -28,7 +30,7 @@ export default class Account {
   readonly updatedAt: Date;
 
   private constructor(props: IAccountProps) {
-    this.id = props.id || randomUUID();
+    this.id = props.id ? new UUID(props.id) : UUID.random();
     this.name = new Name(props.name);
     this.email = new Email(props.email);
     this.password = new Password(props.password, !!props.hashed);
@@ -49,6 +51,10 @@ export default class Account {
 
     if (!props.hashed && !Password.validate(props.password)) {
       return [null, new InvalidPasswordError()];
+    }
+
+    if (props.id && !UUID.validate(props.id)) {
+      return [null, new InvalidUuidError(props.id)];
     }
 
     return [new Account(props), null];
