@@ -7,7 +7,7 @@ export default class MemoAccountRepository implements AccountRepository {
   items = new Map<string, Account>();
 
   async create(account: Account) {
-    this.items.set(account.id, account);
+    this.items.set(account.id.value, account);
   }
 
   async exists(email: string) {

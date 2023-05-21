@@ -27,13 +27,23 @@ describe('postgres account repository', () => {
 
   it('should find an account by id', async () => {
     const [account, err] = await repo.findById(acc.id.value);
-    expect(account).toEqual(await adapter.fromDomain(acc));
+    expect(account?.email.value).toEqual(acc.email.value);
+    expect(account?.name.value).toEqual(acc.name.value);
+    expect(account?.password.value).toEqual(acc.password.value);
+    expect(account?.id.value).toEqual(acc.id.value);
+    expect(account?.createdAt).toEqual(acc.createdAt);
+    expect(account?.updatedAt).toEqual(acc.updatedAt);
     expect(err).toBeNull();
   });
 
   it('should find an account by email', async () => {
     const [account, err] = await repo.findByEmail(acc.email.value);
-    expect(account).toEqual(await adapter.fromDomain(acc));
+    expect(account?.email.value).toEqual(acc.email.value);
+    expect(account?.name.value).toEqual(acc.name.value);
+    expect(account?.password.value).toEqual(acc.password.value);
+    expect(account?.id.value).toEqual(acc.id.value);
+    expect(account?.createdAt).toEqual(acc.createdAt);
+    expect(account?.updatedAt).toEqual(acc.updatedAt);
     expect(err).toBeNull();
   });
 

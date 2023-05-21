@@ -1,16 +1,21 @@
 import { compare, hash } from 'bcrypt';
 
 export default class Password {
-  readonly value: string;
-  readonly hashed: boolean;
+  private _value: string;
+  private hashed: boolean;
 
   constructor(value: string, hashed: boolean) {
-    this.value = value;
+    this._value = value;
     this.hashed = hashed;
   }
 
   public async getHashedValue(): Promise<string> {
-    return this.hashed ? this.value : await hash(this.value, 12);
+    if (!this.hashed) {
+      this._value = await hash(this.value, 12);
+      this.hashed = true;
+    }
+
+    return this.value;
   }
 
   public async compare(value: string): Promise<boolean> {
@@ -34,5 +39,9 @@ export default class Password {
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 
     return regex.test(password);
+  }
+
+  public get value(): string {
+    return this._value;
   }
 }

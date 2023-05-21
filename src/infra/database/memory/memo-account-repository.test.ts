@@ -23,7 +23,7 @@ describe('memory account repository', () => {
   });
 
   it('should find an account by id', async () => {
-    const [account, err] = await repo.findById(acc.id);
+    const [account, err] = await repo.findById(acc.id.value);
     expect(account).toEqual(acc);
     expect(err).toBeNull();
   });

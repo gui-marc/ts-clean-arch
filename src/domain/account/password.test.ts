@@ -30,4 +30,19 @@ describe('password', () => {
   it('should be valid if password has at least 8 characters, 1 uppercase, 1 lowercase, 1 number, and 1 special character', () => {
     expect(Password.validate('123!asdASD1#')).toBeTruthy();
   });
+
+  it('should be hashed', async () => {
+    const passStr = '123123asASd#"!';
+    const password = Password.fromValue(passStr);
+    const hashed = await password.getHashedValue();
+
+    expect(passStr).not.toEqual(hashed);
+  });
+
+  it('should be compared', async () => {
+    const realPass = '123123asASd#"!';
+    const password = Password.fromValue(realPass);
+
+    expect(await password.compare(realPass)).toBeTruthy();
+  });
 });
