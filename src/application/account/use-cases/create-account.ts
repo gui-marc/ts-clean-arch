@@ -1,9 +1,4 @@
-import {
-  badRequest,
-  created,
-  type HttpRequest,
-  type HttpResponse,
-} from '@/application/core/http';
+import { badRequest, created, type HttpRequest } from '@/application/core/http';
 import UseCase from '@/application/core/use-case';
 import Account, { type IAccountProps } from '@/domain/account/account';
 
@@ -14,7 +9,7 @@ export default class CreateAccount extends UseCase {
     super('Create Account');
   }
 
-  async run(request: HttpRequest<IAccountProps>, response: HttpResponse) {
+  async run(request: HttpRequest<IAccountProps>) {
     const { name, email, password } = request.body;
 
     const [account, error] = Account.create({ name, email, password });

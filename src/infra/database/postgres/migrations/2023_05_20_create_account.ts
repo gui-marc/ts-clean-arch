@@ -6,9 +6,13 @@ export default async function createAccountTable() {
             id uuid primary key default uuid_generate_v4(),
             name varchar(255) not null,
             email varchar(255) not null unique,
-            password varchar(255) not null,
             created_at timestamp not null default now(),
             updated_at timestamp not null default now()
+        );
+
+        create table if not exists account_password (
+            account_id uuid primary key not null references account(id) on delete cascade,
+            password varchar(255) not null
         );
     `);
 }
